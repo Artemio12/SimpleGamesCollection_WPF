@@ -5,36 +5,85 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MatchGame1"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="400">
-    <Grid x:Name="mainGrid">
+        Title="MemoryCard" Height="500" Width="500" >
+    <Grid x:Name="mainGrid" HorizontalAlignment="Center" VerticalAlignment="Center" Width="500" Height="500">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
+            <ColumnDefinition Width="0.6*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="1.4*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <TextBlock Grid.Column="0" HorizontalAlignment="Center" Grid.Row="0" Text="?" VerticalAlignment="Center" FontSize="36"/>
-        <TextBlock Grid.Column="1" HorizontalAlignment="Center" Grid.Row="0" Text="?" VerticalAlignment="Center" FontSize="36"/>
-        <TextBlock Grid.Column="2" HorizontalAlignment="Center" Grid.Row="0" Text="?" VerticalAlignment="Center" FontSize="36"/>
-        <TextBlock Grid.Column="3" HorizontalAlignment="Center" Grid.Row="0" Text="?" VerticalAlignment="Center" FontSize="36"/>
-        <TextBlock Grid.Column="0" HorizontalAlignment="Center" Grid.Row="1" Text="?" VerticalAlignment="Center" FontSize="36"/>
-        <TextBlock Grid.Column="1" HorizontalAlignment="Center" Grid.Row="1" Text="?" VerticalAlignment="Center" FontSize="36"/>
-        <TextBlock Grid.Column="2" HorizontalAlignment="Center" Grid.Row="1" Text="?" VerticalAlignment="Center" FontSize="36"/>
-        <TextBlock Grid.Column="3" HorizontalAlignment="Center" Grid.Row="1" Text="?" VerticalAlignment="Center" FontSize="36"/>
-        <TextBlock Grid.Column="0" HorizontalAlignment="Center" Grid.Row="2" Text="?" VerticalAlignment="Center" FontSize="36"/>
-        <TextBlock Grid.Column="1" HorizontalAlignment="Center" Grid.Row="2" Text="?" VerticalAlignment="Center" FontSize="36"/>
-        <TextBlock Grid.Column="2" HorizontalAlignment="Center" Grid.Row="2" Text="?" VerticalAlignment="Center" FontSize="36"/>
-        <TextBlock Grid.Column="3" HorizontalAlignment="Center" Grid.Row="2" Text="?" VerticalAlignment="Center" FontSize="36"/>
-        <TextBlock Grid.Column="0" HorizontalAlignment="Center" Grid.Row="3" Text="?" VerticalAlignment="Center" FontSize="36"/>
-        <TextBlock Grid.Column="1" HorizontalAlignment="Center" Grid.Row="3" Text="?" VerticalAlignment="Center" FontSize="36"/>
-        <TextBlock Grid.Column="2" HorizontalAlignment="Center" Grid.Row="3" Text="?" VerticalAlignment="Center" FontSize="36"/>
-        <TextBlock Grid.Column="3" HorizontalAlignment="Center" Grid.Row="3" Text="?" VerticalAlignment="Center" FontSize="36"/>
+        <Border BorderBrush="Black" BorderThickness="4,4,4,4" Grid.ColumnSpan="7" Height="446" Grid.RowSpan="6" Width="472" VerticalAlignment="Center" CornerRadius="3,3,3,3" Tag="NotActive" Margin="0,5,0,0" HorizontalAlignment="Center" Background="#FF80807E"/>
+        <Border Grid.Column="1" Grid.Row="1" BorderBrush="Black" BorderThickness="2,2,1,1" CornerRadius="5" MouseDown="Border_MouseDown" Tag = "Clickable" Width="99" Background="White">
+            <TextBlock Text="" FontSize="36" Width="82" TextAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Left" RenderTransformOrigin="0.5,0.5" LineHeight="48"/>
+        </Border>
+        <Border Grid.Column="2" Grid.Row="1" BorderBrush="Black" BorderThickness="1,2,1,1"  CornerRadius = "5"  MouseDown="Border_MouseDown" Tag = "Clickable" Background="White">
+            <TextBlock HorizontalAlignment="Center" Text="" VerticalAlignment="Center" FontSize="36" Width="99" TextAlignment="Center"/>
+        </Border>
+        <Border Grid.Column="3" Grid.Row="1" BorderBrush="Black" BorderThickness="1,2,1,1"  CornerRadius = "5"  MouseDown="Border_MouseDown" Tag = "Clickable" Background="White">
+            <TextBlock HorizontalAlignment="Center" Text="" VerticalAlignment="Center" FontSize="36"  Width="99" TextAlignment="Center"/>
+        </Border>
+        <Border Grid.Column="4" Grid.Row="1" BorderBrush="Black" BorderThickness="1,2,2,1"  CornerRadius = "5"  MouseDown="Border_MouseDown" Tag = "Clickable" Background="White">
+            <TextBlock HorizontalAlignment="Center" Text="" VerticalAlignment="Center" FontSize="36"  Width="99" TextAlignment="Center"/>
+        </Border>
+        <Border Grid.Column="1" Grid.Row="2" BorderBrush="Black" BorderThickness="2,1,1,1"  CornerRadius = "5"  MouseDown="Border_MouseDown" Tag = "Clickable" Background="White">
+            <TextBlock HorizontalAlignment="Center" Text="" VerticalAlignment="Center" FontSize="36"  Width="99" TextAlignment="Center"/>
+        </Border>
+        <Border Grid.Column="2" Grid.Row="2" BorderBrush="Black" BorderThickness="1"  CornerRadius = "5"  MouseDown="Border_MouseDown" Tag = "Clickable" Background="White">
+            <TextBlock HorizontalAlignment="Center" Text="" VerticalAlignment="Center" FontSize="36"  Width="99" TextAlignment="Center"/>
+        </Border>
+        <Border Grid.Column="3" Grid.Row="2" BorderBrush="Black" BorderThickness="1"  CornerRadius = "5"  MouseDown="Border_MouseDown" Tag = "Clickable" Background="White">
+            <TextBlock HorizontalAlignment="Center" Text="" VerticalAlignment="Center" FontSize="36"  Width="99" TextAlignment="Center"/>
+        </Border>
+        <Border Grid.Column="4" Grid.Row="2" BorderBrush="Black" BorderThickness="1,1,2,1"  CornerRadius = "5"  MouseDown="Border_MouseDown" Tag = "Clickable" Background="White">
+            <TextBlock HorizontalAlignment="Center" Text="" VerticalAlignment="Center" FontSize="36"  Width="99" TextAlignment="Center"/>
+        </Border>
+        <Border Grid.Column="1" Grid.Row="3" BorderBrush="Black" BorderThickness="2,1,1,1"  CornerRadius = "5"  MouseDown="Border_MouseDown" Tag = "Clickable" Background="White">
+            <TextBlock HorizontalAlignment="Center" Text="" VerticalAlignment="Center" FontSize="36"  Width="99" TextAlignment="Center"/>
+        </Border>
+        <Border Grid.Column="2" Grid.Row="3" BorderBrush="Black" BorderThickness="1"  CornerRadius = "5"  MouseDown="Border_MouseDown" Tag = "Clickable" Background="White">
+            <TextBlock HorizontalAlignment="Center" Text="" VerticalAlignment="Center" FontSize="36"  Width="99" TextAlignment="Center"/>
+        </Border>
+        <Border Grid.Column="3" Grid.Row="3" BorderBrush="Black" BorderThickness="1"  CornerRadius = "5"  MouseDown="Border_MouseDown" Tag = "Clickable" Background="White">
+            <TextBlock HorizontalAlignment="Center" Text="" VerticalAlignment="Center" FontSize="36"  Width="99" TextAlignment="Center"/>
+        </Border>
+        <Border Grid.Column="4" Grid.Row="3" BorderBrush="Black" BorderThickness="1,1,2,1"  CornerRadius = "5"   MouseDown="Border_MouseDown" Tag = "Clickable" Background="White">
+            <TextBlock HorizontalAlignment="Center" Text="" VerticalAlignment="Center" FontSize="36"  Width="99" TextAlignment="Center" Tag = "Clickable"/>
+        </Border>
+        <Border Grid.Column="1" Grid.Row="4" BorderBrush="Black" BorderThickness="2,1,1,2"  CornerRadius = "5"  MouseDown="Border_MouseDown" Tag = "Clickable" Background="White">
+            <TextBlock HorizontalAlignment="Center" Text="" VerticalAlignment="Center" FontSize="36"  Width="99" TextAlignment="Center"/>
+        </Border>
+        <Border Grid.Column="2" Grid.Row="4" BorderBrush="Black" BorderThickness="1,1,1,2"  CornerRadius = "5"  MouseDown="Border_MouseDown" Tag = "Clickable" Background="White">
+            <TextBlock HorizontalAlignment="Center" Grid.Row="3" Text="" VerticalAlignment="Center" FontSize="36"  Width="99" TextAlignment="Center"/>
+        </Border>
+        <Border Grid.Column="3" Grid.Row="4" BorderBrush="Black" BorderThickness="1,1,1,2"  CornerRadius = "5"  MouseDown="Border_MouseDown" Tag = "Clickable" Background="White">
+            <TextBlock HorizontalAlignment="Center" Text="" VerticalAlignment="Center" FontSize="36"  Width="99" TextAlignment="Center"/>
+        </Border>
+        <Border Grid.Column="4" Grid.Row="4" BorderBrush="Black" BorderThickness="1,1,2,2"  CornerRadius = "5"  MouseDown="Border_MouseDown" Tag = "Clickable" Background="White">
+            <TextBlock HorizontalAlignment="Center" Text="" VerticalAlignment="Center" FontSize="36"  Width="99" TextAlignment="Center"/>
+        </Border>
+       
+        <Border BorderBrush="Black" BorderThickness="2" Grid.Column="2" Grid.ColumnSpan="2" Height="34" Tag="NotActive" Margin="0,34,0,0" Background="White"/>
+        <Border BorderBrush="Black" BorderThickness="1" Grid.Column="5" Grid.ColumnSpan="1" Height="40" Width="45" Tag="NotActive" HorizontalAlignment="Center" VerticalAlignment="Top" Grid.Row="1" Margin="0,1,10,2" Background="White">
+            <TextBlock Grid.Column="5" HorizontalAlignment="Center" TextWrapping="Wrap" Text="HP" VerticalAlignment="Center" TextAlignment="Center" Grid.Row="4" FontWeight="Bold" FontSize="24"/>
+        </Border>
+        <Border BorderBrush="Black" BorderThickness="1" Grid.Column="5" Grid.Row="1" Height="225" Width="45" Grid.RowSpan="4" CornerRadius="20,20,20,20" Tag="NotActive" HorizontalAlignment="Center" Margin="0,0,10,0" Background="White"/>
+        <TextBlock x:Name="timeTextBlock" Grid.Column="2" HorizontalAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Bottom" TextAlignment="Center" FontSize="28" Grid.ColumnSpan="2" Text="Timer" Margin="0,0,0,10"/>
+        <Button x:Name="startButton" Content="Start" HorizontalAlignment="Center" Grid.Row="5" VerticalAlignment="Top" Width="250" Grid.ColumnSpan="4" Height="40" Click="Button_Click" Grid.Column="1" Margin="0,10,0,0" FontSize="24" FontWeight="Bold"/>
+        <StackPanel x:Name="HPBar" Grid.Column="5" Grid.Row="1" Grid.RowSpan="4" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,10,0" >
+            <TextBlock Grid.Column="5" Grid.Row="3" HorizontalAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Center" TextAlignment="Center" FontSize="36" Grid.RowSpan="2"/>
+            <TextBlock Grid.Column="5" Grid.Row="1" HorizontalAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Top" TextAlignment="Center" FontSize="36" Grid.RowSpan="3" Margin="0,35,0,35"/>
+            <TextBlock Grid.Column="5" HorizontalAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Bottom" TextAlignment="Center" FontSize="36" Grid.Row="1" Grid.RowSpan="2"/>
+        </StackPanel>
     </Grid>
 </Window>
