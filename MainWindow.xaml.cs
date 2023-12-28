@@ -31,7 +31,6 @@ namespace MatchGame1
     {
         private DispatcherTimer timer = new DispatcherTimer();
         private Button button;
-     
 
         private List<Border> selectBorderList = new List<Border>();
         private List<TextBlock> HPHeartList = new List<TextBlock>();
@@ -40,6 +39,7 @@ namespace MatchGame1
         private int timeBeforeDamage = 100;
         private int countSelectedMatches = 2;
         private int demonCount;
+        private int hp = 3;
         private int matchesFound;
         private int bonusTime = 20;
         private int i = 0;
@@ -108,12 +108,13 @@ namespace MatchGame1
                 heart.Foreground = Brushes.IndianRed;
                 await Task.Delay(TimeSpan.FromSeconds(0.5f));
                 HPHeartList.Add(heart);
-            }
-            
+            }   
         }
         private void RestartGame()
         {
             timeTextBlock.Text = "Timer";
+            timeBeforeDamage = 100;
+            hp = 3;
             foreach (var border in clickableBorderList)
             {
                 border.Child.Opacity = 0;
@@ -128,29 +129,27 @@ namespace MatchGame1
             Border currentBorder = sender as Border;
             TextBlock currentTextBlock = currentBorder.Child as TextBlock;
 
-            FindMatch(currentBorder, currentTextBlock);
+            if (currentTextBlock.Text == "👹")
+            {
+                TakeDemonDamage(currentBorder, currentTextBlock);
+                if (selectBorderList.Count != 0)
+                {
+                    selectBorderList[i].Child.Opacity = 0;
+                    selectBorderList.Clear();
+                }
+            }
+            else FindMatch(currentBorder, currentTextBlock);
         }
         private async void FindMatch(Border currentBorder, TextBlock currentTextBlock)
         {
             if (selectBorderList.Count < countSelectedMatches && currentBorder.Child.Opacity == 0)
             {
                 currentBorder.Child.Opacity = 1;
-
-                if (currentTextBlock.Text != "👹") selectBorderList.Add(currentBorder);
-                else 
-                {
-                    TakeDemonDamage(currentBorder, currentTextBlock);
-                    if (selectBorderList.Count != 0)
-                    {
-                        selectBorderList[i].Child.Opacity = 0;
-                        selectBorderList.Clear();
-                    }
-                }
+                selectBorderList.Add(currentBorder);
             }
 
             if(selectBorderList.Count == countSelectedMatches && (selectBorderList[i].Child as TextBlock).Text == (selectBorderList[i + 1].Child as TextBlock).Text)
             { 
-
                 MatchCount(ref matchesFound, ref timeBeforeDamage);
                 selectBorderList[i].BorderBrush = Brushes.Blue;
                 selectBorderList[i].Background = Brushes.Green;
@@ -158,7 +157,6 @@ namespace MatchGame1
                 selectBorderList[i + 1].Background = Brushes.Green;
                
                 selectBorderList.Clear();
-
             }
             else if (selectBorderList.Count == countSelectedMatches)
             {
@@ -192,13 +190,13 @@ namespace MatchGame1
             timeTextBlock.Text = (timeBeforeDamage / 10f).ToString("0.0s");
             if (matchesFound == (clickableBorderList.Count-demonCount)/countSelectedMatches && timeBeforeDamage > 0)
             {
-                WinnerEnding();
+                GameOver("You win!");
             }
             else if (timeBeforeDamage == 0)
             {
-                timeBeforeDamage = 50;
                 TakeDamage();
-            }
+                timeBeforeDamage = 50;
+            } 
         }
         private void StopTimer(string finalText)
         {
@@ -212,28 +210,20 @@ namespace MatchGame1
                 if (element.Text == "❤️")
                 {
                     element.Text = "🤍";
-                    HPHeartList.Remove(element);
+                    hp--;
                     break;
                 }
             }
-            LoserEnding();
-        }
-        private void LoserEnding()
-        {
-            if (HPHeartList.Count == 0)
+            if (hp == 0) 
             {
-                StopTimer("Good game!");
-                Ending();
+                GameOver("Good Game!");
             }
-        }
-        private void WinnerEnding()
-        {
-            StopTimer("You win!");
-            Ending();
+            
         }
 
-        private void Ending()
+        private void GameOver(string finalInscription)
         {
+            StopTimer(finalInscription);
             button.Content = "Restart";
             button.Visibility = Visibility.Visible;
             foreach (var border in clickableBorderList)
@@ -241,7 +231,7 @@ namespace MatchGame1
                 border.MouseDown -= Border_MouseDown;
                 border.Child.Opacity = 1;
             }
-
+            return;
         }
         private void MatchCount(ref int matchCount, ref int timeBeforeDamage)
         {
