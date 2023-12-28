@@ -167,7 +167,6 @@ namespace MatchGame1
                 }
                 selectBorderList.Clear();
             }
-
         }
         private void TakeDemonDamage(Border border, TextBlock curretTextblock)
         {
@@ -176,7 +175,6 @@ namespace MatchGame1
             curretTextblock.Foreground = Brushes.Purple;
             border.Child.Opacity = 1;
             TakeDamage();
-           
         }
         private void StartTimer()
         {
@@ -214,11 +212,7 @@ namespace MatchGame1
                     break;
                 }
             }
-            if (hp == 0) 
-            {
-                GameOver("Good Game!");
-            }
-            
+            if (hp == 0) GameOver("Good Game!");
         }
 
         private void GameOver(string finalInscription)
