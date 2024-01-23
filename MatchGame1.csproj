@@ -84,6 +84,27 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="BaseDamager.cs" />
+    <Compile Include="BaseGameManager.cs" />
+    <Compile Include="SimpleGameFactory.cs" />
+    <Compile Include="GameOver.xaml.cs">
+      <DependentUpon>GameOver.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MemoryCard.xaml.cs">
+      <DependentUpon>MemoryCard.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MemoryCardDamager.cs" />
+    <Compile Include="FindMatchGameManager.cs" />
+    <Compile Include="IClickable.cs" />
+    <Compile Include="Timer.cs" />
+    <Page Include="GameOver.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MemoryCard.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
