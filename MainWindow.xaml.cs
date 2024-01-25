@@ -24,12 +24,9 @@ namespace MatchGame1
 
     public partial class MainWindow : Window
     {
-        SimpleGameFactory gameFactory;
-        private Window window;
         public MainWindow()
         {
             InitializeComponent();
-            gameFactory = new SimpleGameFactory();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -37,8 +34,7 @@ namespace MatchGame1
             switch (gameComboBox.SelectedIndex)
             {
                 case 0:
-                    MemoryCard memoryCard = new MemoryCard();
-                    memoryCard.MainWindow = this;
+                    MemoryCard memoryCard = new MemoryCard { MainWindow = this };
                     memoryCard.Show();
                     this.Visibility = Visibility.Collapsed;
                     break;
@@ -47,6 +43,5 @@ namespace MatchGame1
                     break;
             }
         }
-
     }
 }

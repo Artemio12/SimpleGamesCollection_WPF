@@ -25,6 +25,7 @@ namespace MatchGame1
         {
             this.damager = damager;
             outputTextBlock = damager.OutputTextBlock;
+            
         }
 
         public void StartTimer(int startTime)
@@ -46,7 +47,7 @@ namespace MatchGame1
                 CurrentTime = startTime;
             }
         }
-        public static void StopTimer(TextBlock outputTextBlock,string finalText)
+        public void StopTimer(TextBlock outputTextBlock,string finalText)
         {
             outputTextBlock.Text = finalText;
             timer.Stop();

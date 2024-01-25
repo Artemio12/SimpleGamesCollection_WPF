@@ -9,13 +9,17 @@ using System.Windows.Media;
 
 namespace MatchGame1
 {
-    internal class MemoryCardDamager
+    internal class MemoryCardDamager :BaseDamager
     {
         private IClickable clickable;
-        private List<Border> clickableBorderList;
-        public List<Border> ClickableBorderList { get => clickableBorderList; set => clickableBorderList = value;  }
+        private IEnumerable<Border> clickableBorders;
+        public IEnumerable<Border> ClickableBorders 
+        { get => clickableBorders; set => clickableBorders = value; }
+      
         private TextBlock outputTextBlock;
         public TextBlock OutputTextBlock => outputTextBlock;
+
+        public IEndable End { private get; set; }
 
         public StackPanel HPBar;
         private int currentHP;
@@ -30,7 +34,7 @@ namespace MatchGame1
             currentHP = maxHP;
         }
 
-        public void TakeDamage()
+        public override void TakeDamage()
         {
             foreach (var element in HPBar.Children.OfType<TextBlock>())
             {
@@ -45,28 +49,25 @@ namespace MatchGame1
                     break;
                 }
             }
-            if (currentHP == 0) GameOver("Good Game");
-        }
-        public void TakeDemonDamage(Border demonBorder, TextBlock currentTextblock)
-        {
-            demonBorder.BorderBrush = Brushes.Orange;
-            demonBorder.Background = Brushes.Red;
-            currentTextblock.Foreground = Brushes.Purple;
-            demonBorder.Child.Opacity = 1;
-            TakeDamage();
-        }
-        public void GameOver(string finalInscription)
-        {
-            Timer.StopTimer(outputTextBlock ,finalInscription);
-            clickable.Button.Content = "Restart";
-            clickable.Button.Visibility = Visibility.Visible;
-            currentHP = maxHP;
-            foreach (var border in clickableBorderList)
+            if (currentHP == 0) 
             {
-                border.MouseDown -= clickable.Border_MouseDown;
-                border.Child.Opacity = 1;
-            }
-            return;
+                End.GameOver("Good Game");
+                currentHP = maxHP;
+            } 
         }
+       
+        //public void GameOver(string finalInscription)
+        //{
+        //    Timer.StopTimer(outputTextBlock ,finalInscription);
+        //    clickable.StartButton.Content = "Restart";
+        //    clickable.StartButton.Visibility = Visibility.Visible;
+        //    currentHP = maxHP;
+        //    foreach (var border in clickableBorders)
+        //    {
+        //        border.MouseDown -= clickable.Border_MouseDown;
+        //        border.Child.Opacity = 1;
+        //    }
+        //    return;
+        //}
     }
 }

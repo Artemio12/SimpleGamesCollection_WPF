@@ -10,27 +10,34 @@ using System.Windows.Media;
 
 namespace MatchGame1
 {
-    internal class FindMatchGameManager :BaseGameManager
+    internal class FindMatchManager :BaseGameManager, IEndable
     {
         private IClickable clickable;
+        private IEnumerable<Border> clickableBorders;
         private MemoryCardGameStruct gameStruct;
-        private List<Border> clickableBorderList = new List<Border>();
         private Timer myTimer;
         public Timer MyTimer => myTimer;
 
         private MemoryCardDamager damager;
         public MemoryCardDamager Damager => damager;
 
-        public FindMatchGameManager(IClickable clickable, ref MemoryCardGameStruct gameStruct) : this(clickable)
+        public FindMatchManager(IClickable clickable, ref MemoryCardGameStruct gameStruct) : this(clickable)
         {
             this.gameStruct = gameStruct;
-            damager = new MemoryCardDamager(clickable, ref gameStruct.HPBar, gameStruct.outputTextBlock);
+            damager = new MemoryCardDamager(clickable, ref gameStruct.HPBar, gameStruct.outputTextBlock)
+            { End = this };
             myTimer = new Timer(damager);
+            SelectClickableBorders();
         }
-
-        private FindMatchGameManager(IClickable clickable)
+        private FindMatchManager(IClickable clickable)
         {
             this.clickable = clickable;
+        }
+        private void SelectClickableBorders()
+        {
+            clickableBorders = from text in gameStruct.bordersOnGrid
+                               where text.Tag.ToString() == nameof(EnumTags.Clickable)
+                               select text;
         }
 
         public override async void SetUp()
@@ -42,10 +49,6 @@ namespace MatchGame1
             {
                 list.Add(str);
             }
-
-            var clickableBorders = from text in gameStruct.bordersOnGrid
-                                  where text.Tag.ToString() == nameof(EnumTags.Clickable)
-                                  select text;
 
             foreach (Border border in clickableBorders)
             {
@@ -73,10 +76,10 @@ namespace MatchGame1
             foreach (Border border in clickableBorders)
             {
                 border.Child.Opacity = 0;
-                clickableBorderList.Add(border);
+                border.MouseDown += clickable.Border_MouseDown;
             }
             
-            damager.ClickableBorderList = clickableBorderList;
+            damager.ClickableBorders = clickableBorders;
             myTimer.StartTimer(gameStruct.startTime);
         }
 
@@ -84,15 +87,26 @@ namespace MatchGame1
         {
             gameStruct.outputTextBlock.Text = "Timer";
 
-            foreach (var border in clickableBorderList)
+            foreach (var border in clickableBorders)
             {
                 border.Child.Opacity = 0;
                 border.Background = Brushes.White;
                 border.BorderBrush = Brushes.Black;
                 (border.Child as TextBlock).Foreground = Brushes.Black;
-                border.MouseDown += clickable.Border_MouseDown;
             }
-            clickableBorderList.Clear();
+        }
+
+        public override void GameOver(string finalInscription)
+        {
+            myTimer.StopTimer(gameStruct.outputTextBlock, finalInscription);
+            clickable.StartButton.Content = "Restart";
+            clickable.StartButton.Visibility = Visibility.Visible;
+            foreach (var border in clickableBorders)
+            {
+                border.MouseDown -= clickable.Border_MouseDown;
+                border.Child.Opacity = 1;
+            }
+            return;
         }
     }
 }

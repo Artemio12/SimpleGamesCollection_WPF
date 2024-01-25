@@ -15,6 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Threading;
+using System.Reflection;
 
 namespace MatchGame1
 {
@@ -44,15 +45,14 @@ namespace MatchGame1
 
     public partial class MemoryCard :Window, IClickable
     {
+        private MemoryCardGameStruct gameStruct;
+        private FindMatchManager gameManager;
         private Stack<Border> selectBorderStack = new Stack<Border>(2);
         private MainWindow mainWindow;
         public MainWindow MainWindow { get { return mainWindow; } set { mainWindow = value; } }
-        private MemoryCardGameStruct gameStruct;
-        private FindMatchGameManager gameManager;       
+        private Button startButton;
+        public Button StartButton => startButton;
 
-        private Button button;
-        public Button Button => button;
-      
         private int matchesFound;
 
         public MemoryCard()
@@ -60,7 +60,7 @@ namespace MatchGame1
             InitializeComponent();
 
             InitializeStruct();
-            gameManager = new FindMatchGameManager(this, ref gameStruct);
+            gameManager = new FindMatchManager(this, ref gameStruct);
         }
 
         private void InitializeStruct()
@@ -87,11 +87,11 @@ namespace MatchGame1
             gameStruct.bonusTime = 10;
         }
 
-        public void Button_Click(object sender, RoutedEventArgs e)
+        public void StartButton_Click(object sender, RoutedEventArgs e)
         {
-            button = sender as Button;
-            button.Visibility = Visibility.Hidden;
-            if (button.Content.ToString() == "Restart")
+            startButton = sender as Button;
+            startButton.Visibility = Visibility.Hidden;
+            if (startButton.Content.ToString() == "Restart")
             {
                 gameManager.Restart();
             }
@@ -103,24 +103,16 @@ namespace MatchGame1
             Border currentBorder = sender as Border;
             TextBlock currentTextBlock = currentBorder.Child as TextBlock;
 
-            if (currentBorder.Child.Opacity == 0) FindMatch(currentBorder, currentTextBlock);
+            if (selectBorderStack.Count < gameStruct.countSelectedMatches)
+                FindCards(currentBorder, currentTextBlock);
+
+            if (selectBorderStack.Count == gameStruct.countSelectedMatches)
+                CheckMatch(currentTextBlock);
         }
 
-        private async void FindMatch(Border currentBorder, TextBlock currentTextBlock)
+        private async void CheckMatch(TextBlock currentTextBlock)
         {
-            if (selectBorderStack.Count < gameStruct.countSelectedMatches)
-            {
-                currentBorder.Child.Opacity = 1;
-
-                if (currentTextBlock.Text != gameStruct.emojiDamager) selectBorderStack.Push(currentBorder);
-                else
-                {
-                    gameManager.Damager.TakeDemonDamage(currentBorder, currentTextBlock);
-                    if (selectBorderStack.Count != 0) selectBorderStack.Pop().Child.Opacity = 0;
-                }
-            }
-
-            if (selectBorderStack.Count == gameStruct.countSelectedMatches && selectBorderStack.All(p => (p.Child as TextBlock).Text == currentTextBlock.Text))
+            if (selectBorderStack.All(p => (p.Child as TextBlock).Text == currentTextBlock.Text))
             {
                 MatchCount(ref matchesFound);
                 foreach (var element in selectBorderStack)
@@ -131,14 +123,15 @@ namespace MatchGame1
 
                 selectBorderStack.Clear();
             }
-            else if (selectBorderStack.Count == gameStruct.countSelectedMatches)
+            else
             {
-                if (Button.Visibility == Visibility.Visible)
+                if (StartButton.Visibility == Visibility.Visible)
                 {
                     return;
                 }
                 
                 await Task.Delay(TimeSpan.FromSeconds(0.3f));
+
                 foreach (var border in selectBorderStack)
                 {
                     border.Child.Opacity = 0;
@@ -146,23 +139,48 @@ namespace MatchGame1
                 selectBorderStack.Clear();
             }
         }
+
+        private void FindCards(Border currentBorder, TextBlock currentTextBlock)
+        {
+            if (currentBorder.Child.Opacity == 0)
+            {
+                currentBorder.Child.Opacity = 1;
+
+                if (currentTextBlock.Text != gameStruct.emojiDamager) selectBorderStack.Push(currentBorder);
+                else
+                {
+                    TakeDemonDamage(currentBorder, currentTextBlock);
+                    if (selectBorderStack.Count != 0) selectBorderStack.Pop().Child.Opacity = 0;
+                }
+                return;
+            }
+        }
+
+        public void TakeDemonDamage(Border demonBorder, TextBlock currentTextblock)
+        {
+            demonBorder.BorderBrush = Brushes.Orange;
+            demonBorder.Background = Brushes.Red;
+            currentTextblock.Foreground = Brushes.Purple;
+            demonBorder.Child.Opacity = 1;
+            gameManager.Damager.TakeDamage();
+        }
+
         private void MatchCount(ref int matchCount)
         {
             gameManager.MyTimer.CurrentTime += gameStruct.bonusTime;
             matchCount++;
-            if (matchesFound == 7) gameManager.Damager.GameOver("You win");
-        }
-
-        private void Button_Click_1(object sender, RoutedEventArgs e)
-        {
-            this.Close();
-            mainWindow.Visibility = Visibility.Visible;
+            if (matchCount == 7) gameManager.GameOver("You win");
         }
 
         private void Window_Closed(object sender, EventArgs e)
         {
             mainWindow.Visibility = Visibility.Visible;
+        }
 
+        private void MainMenuButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+            mainWindow.Visibility = Visibility.Visible;
         }
     }
 }

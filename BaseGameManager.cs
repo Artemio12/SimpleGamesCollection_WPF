@@ -10,5 +10,6 @@ namespace MatchGame1
     {
         public abstract void SetUp();
         public abstract void Restart();
+        public abstract void GameOver(string finalInscription);
     }
 }

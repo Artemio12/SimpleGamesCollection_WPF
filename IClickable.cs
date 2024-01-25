@@ -11,8 +11,8 @@ namespace MatchGame1
 {
     public interface IClickable
     {
-        Button Button { get; }
-        void Button_Click(object sender, RoutedEventArgs e);
+        Button StartButton { get; }
+        void StartButton_Click(object sender, RoutedEventArgs e);
         void Border_MouseDown(object sender, MouseButtonEventArgs e);
     }
 }

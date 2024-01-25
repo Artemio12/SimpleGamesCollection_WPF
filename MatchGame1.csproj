@@ -86,15 +86,15 @@
     </ApplicationDefinition>
     <Compile Include="BaseDamager.cs" />
     <Compile Include="BaseGameManager.cs" />
-    <Compile Include="SimpleGameFactory.cs" />
     <Compile Include="GameOver.xaml.cs">
       <DependentUpon>GameOver.xaml</DependentUpon>
     </Compile>
+    <Compile Include="IEndable.cs" />
     <Compile Include="MemoryCard.xaml.cs">
       <DependentUpon>MemoryCard.xaml</DependentUpon>
     </Compile>
     <Compile Include="MemoryCardDamager.cs" />
-    <Compile Include="FindMatchGameManager.cs" />
+    <Compile Include="FindMatchManager.cs" />
     <Compile Include="IClickable.cs" />
     <Compile Include="Timer.cs" />
     <Page Include="GameOver.xaml">
