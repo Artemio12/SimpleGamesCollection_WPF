@@ -86,7 +86,7 @@
     </ApplicationDefinition>
     <Compile Include="BaseDamager.cs" />
     <Compile Include="BaseGameManager.cs" />
-    <Compile Include="ControlDamager.cs" />
+    <Compile Include="DamageBorder.cs" />
     <Compile Include="DamageDecorator.cs" />
     <Compile Include="GameOver.xaml.cs">
       <DependentUpon>GameOver.xaml</DependentUpon>

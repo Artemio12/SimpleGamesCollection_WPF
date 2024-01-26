@@ -22,7 +22,7 @@ namespace MatchGame1
 
         public GameOver()
         {
-            InitializeComponent();
+            //InitializeComponent();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

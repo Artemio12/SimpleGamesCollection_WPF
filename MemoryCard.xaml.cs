@@ -49,7 +49,7 @@ namespace MatchGame1
         private MemoryCardManager gameManager;
         private Stack<Border> selectBorderStack = new Stack<Border>(2);
 
-        private ControlDamager damager;
+        private DamageBorder damageBorder;
 
         private MainWindow mainWindow;
         public MainWindow MainWindow 
@@ -66,7 +66,7 @@ namespace MatchGame1
 
             InitializeStruct();
             gameManager = new MemoryCardManager(this, ref gameStruct);
-            
+            damageBorder = new DamageBorder(gameManager.Damager);
         }
 
         private void InitializeStruct()
@@ -113,12 +113,12 @@ namespace MatchGame1
             TextBlock currentTextBlock = currentBorder.Child as TextBlock;
 
             if (currentBorder.Child.Opacity == 0)
-                FindCards(currentBorder, currentTextBlock);
+                AddCard(currentBorder, currentTextBlock);
 
             if (selectBorderStack.Count == gameStruct.countSelectedCards)
-                CheckMatch(currentTextBlock);
+                CheckCardsMatch(currentTextBlock);
         }
-        private void FindCards(Border currentBorder, TextBlock currentTextBlock)
+        private void AddCard(Border currentBorder, TextBlock currentTextBlock)
         {
             if (selectBorderStack.Count < gameStruct.countSelectedCards)
             {
@@ -127,13 +127,13 @@ namespace MatchGame1
                 if (currentTextBlock.Text != gameStruct.emojiDamager) selectBorderStack.Push(currentBorder);
                 else
                 {
-                    TakeBorderDamage(currentBorder, currentTextBlock);
+                    damageBorder.TakeDamage(currentBorder);
                     if (selectBorderStack.Count != 0) selectBorderStack.Pop().Child.Opacity = 0;
                 }
                 return;
             }
         }
-        private async void CheckMatch(TextBlock currentTextBlock)
+        private async void CheckCardsMatch(TextBlock currentTextBlock)
         {
             if (selectBorderStack.All(p => (p.Child as TextBlock).Text == currentTextBlock.Text))
             {
@@ -166,18 +166,8 @@ namespace MatchGame1
         {
             gameManager.MyTimer.CurrentTime += gameStruct.bonusTime;
             matchCount++;
-            Console.WriteLine(matchCount);
             if (matchCount == gameStruct.matchesFound) gameManager.GameOver("You win");
         }
-
-        public void TakeBorderDamage(Border damageBorder, TextBlock currentTextBlock)
-        {
-            damageBorder.BorderBrush = Brushes.Orange;
-            damageBorder.Background = Brushes.Red;
-            currentTextBlock.Foreground = Brushes.Purple;
-            gameManager.Damager.TakeDamage();
-        }
-
         private void MainMenuButton_Click(object sender, RoutedEventArgs e)
         {
             this.Close();

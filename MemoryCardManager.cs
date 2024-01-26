@@ -27,7 +27,8 @@ namespace MatchGame1
             this.clickable = clickable;
             this.gameStruct = gameStruct;
 
-            damager = new MemoryCardDamager(ref gameStruct.HPBar) { End = this };
+            damager = new MemoryCardDamager(ref gameStruct.HPBar, gameStruct.emojiHeart, gameStruct.damagedHeart)
+            { End = this };
             myTimer = new Timer(damager, gameStruct.outputTextBlock);
 
             SelectClickableBorders();
@@ -97,6 +98,7 @@ namespace MatchGame1
         {
             myTimer.StopTimer(gameStruct.outputTextBlock, finalInscription);
             clickable.StartButton.Content = "Restart";
+            damager.CurrentHP = 3;
             clickable.StartButton.Visibility = Visibility.Visible;
             foreach (var border in clickableBorders)
             {

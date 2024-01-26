@@ -9,6 +9,9 @@ namespace MatchGame1
 {
     internal abstract class BaseDamager
     {
+        protected int currentHP;
+        public int CurrentHP { get =>currentHP; set => currentHP = value; }
+        protected int maxHP;
         public abstract void TakeDamage();
     }
 }

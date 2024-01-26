@@ -8,18 +8,18 @@ using System.Windows.Media;
 
 namespace MatchGame1
 {
-    internal class ControlDamager
+    internal class DamageBorder
     {
         private BaseDamager damager;
-        public ControlDamager(BaseDamager damager)
+        public DamageBorder(BaseDamager damager)
         {
             this.damager = damager;
         }
-        public void TakeBorderDamage(Border damageBorder, TextBlock currentTextBlock)
+        public void TakeDamage(Border damageBorder)
         {
             damageBorder.BorderBrush = Brushes.Orange;
             damageBorder.Background = Brushes.Red;
-            currentTextBlock.Foreground = Brushes.Purple;
+            (damageBorder.Child as TextBlock).Foreground = Brushes.Purple;
             damager.TakeDamage();
         }
     }

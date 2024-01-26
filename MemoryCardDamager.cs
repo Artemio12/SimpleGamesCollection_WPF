@@ -13,13 +13,17 @@ namespace MatchGame1
     {
         public IEndable End { private get; set; }
         public StackPanel HPBar;
-        private int currentHP;
-        public int maxHP;
+       
+        private string fillHeart;
+        private string damagedHeart;
 
-        public MemoryCardDamager(ref StackPanel HPBar)
+        public MemoryCardDamager(ref StackPanel HPBar, string fillHeart, string damagedHeart)
         {
-            maxHP = HPBar.Children.OfType<TextBlock>().Count();
             this.HPBar = HPBar;
+            this.fillHeart = fillHeart;
+            this.damagedHeart = damagedHeart;
+
+            maxHP = HPBar.Children.OfType<TextBlock>().Count();
             currentHP = maxHP;
         }
 
@@ -27,20 +31,18 @@ namespace MatchGame1
         {
             foreach (var element in HPBar.Children.OfType<TextBlock>())
             {
-                if (element.Text == "❤️")
+                if (element.Text == fillHeart)
                 {
-                    element.Text = "🤍";
+                    element.Text = damagedHeart;
                     element.Foreground = Brushes.Black;
 
                     currentHP--;
-                    Console.WriteLine(currentHP.ToString() + "fd");
                     break;
                 }
             }
             if (currentHP == 0) 
             {
                 End.GameOver("Good Game");
-                currentHP = maxHP;
             } 
         }
     }
