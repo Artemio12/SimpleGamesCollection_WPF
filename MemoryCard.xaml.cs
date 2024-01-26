@@ -28,7 +28,7 @@ namespace MatchGame1
         Clickable,
     }
 
-    public struct MemoryCardGameStruct
+    public struct MemoryCardStruct
     {
         public IEnumerable<Border> bordersOnGrid;
         public StackPanel HPBar;
@@ -38,18 +38,23 @@ namespace MatchGame1
         public string emojiHeart;
         public string damagedHeart;
         public int startTime;
-        public int countSelectedMatches;
+        public int countSelectedCards;
         public int matchesFound;
         public int bonusTime;
     }
 
     public partial class MemoryCard :Window, IClickable
     {
-        private MemoryCardGameStruct gameStruct;
-        private FindMatchManager gameManager;
+        private MemoryCardStruct gameStruct;
+        private MemoryCardManager gameManager;
         private Stack<Border> selectBorderStack = new Stack<Border>(2);
+
+        private ControlDamager damager;
+
         private MainWindow mainWindow;
-        public MainWindow MainWindow { get { return mainWindow; } set { mainWindow = value; } }
+        public MainWindow MainWindow 
+        { get => mainWindow;  set => mainWindow = value; }
+
         private Button startButton;
         public Button StartButton => startButton;
 
@@ -60,7 +65,8 @@ namespace MatchGame1
             InitializeComponent();
 
             InitializeStruct();
-            gameManager = new FindMatchManager(this, ref gameStruct);
+            gameManager = new MemoryCardManager(this, ref gameStruct);
+            
         }
 
         private void InitializeStruct()
@@ -83,8 +89,9 @@ namespace MatchGame1
             gameStruct.emojiHeart = "❤️";
             gameStruct.damagedHeart = "🤍";
             gameStruct.startTime = 50;
-            gameStruct.countSelectedMatches = 2;
+            gameStruct.countSelectedCards = 2;
             gameStruct.bonusTime = 10;
+            gameStruct.matchesFound = 7;
         }
 
         public void StartButton_Click(object sender, RoutedEventArgs e)
@@ -93,7 +100,9 @@ namespace MatchGame1
             startButton.Visibility = Visibility.Hidden;
             if (startButton.Content.ToString() == "Restart")
             {
+                matchesFound = 0;
                 gameManager.Restart();
+
             }
             gameManager.SetUp();
         }
@@ -103,18 +112,32 @@ namespace MatchGame1
             Border currentBorder = sender as Border;
             TextBlock currentTextBlock = currentBorder.Child as TextBlock;
 
-            if (selectBorderStack.Count < gameStruct.countSelectedMatches)
+            if (currentBorder.Child.Opacity == 0)
                 FindCards(currentBorder, currentTextBlock);
 
-            if (selectBorderStack.Count == gameStruct.countSelectedMatches)
+            if (selectBorderStack.Count == gameStruct.countSelectedCards)
                 CheckMatch(currentTextBlock);
         }
+        private void FindCards(Border currentBorder, TextBlock currentTextBlock)
+        {
+            if (selectBorderStack.Count < gameStruct.countSelectedCards)
+            {
+                currentBorder.Child.Opacity = 1;
 
+                if (currentTextBlock.Text != gameStruct.emojiDamager) selectBorderStack.Push(currentBorder);
+                else
+                {
+                    TakeBorderDamage(currentBorder, currentTextBlock);
+                    if (selectBorderStack.Count != 0) selectBorderStack.Pop().Child.Opacity = 0;
+                }
+                return;
+            }
+        }
         private async void CheckMatch(TextBlock currentTextBlock)
         {
             if (selectBorderStack.All(p => (p.Child as TextBlock).Text == currentTextBlock.Text))
             {
-                MatchCount(ref matchesFound);
+                CountMatches(ref matchesFound);
                 foreach (var element in selectBorderStack)
                 {
                     element.BorderBrush = Brushes.Blue;
@@ -139,47 +162,29 @@ namespace MatchGame1
                 selectBorderStack.Clear();
             }
         }
-
-        private void FindCards(Border currentBorder, TextBlock currentTextBlock)
-        {
-            if (currentBorder.Child.Opacity == 0)
-            {
-                currentBorder.Child.Opacity = 1;
-
-                if (currentTextBlock.Text != gameStruct.emojiDamager) selectBorderStack.Push(currentBorder);
-                else
-                {
-                    TakeDemonDamage(currentBorder, currentTextBlock);
-                    if (selectBorderStack.Count != 0) selectBorderStack.Pop().Child.Opacity = 0;
-                }
-                return;
-            }
-        }
-
-        public void TakeDemonDamage(Border demonBorder, TextBlock currentTextblock)
-        {
-            demonBorder.BorderBrush = Brushes.Orange;
-            demonBorder.Background = Brushes.Red;
-            currentTextblock.Foreground = Brushes.Purple;
-            demonBorder.Child.Opacity = 1;
-            gameManager.Damager.TakeDamage();
-        }
-
-        private void MatchCount(ref int matchCount)
+        private void CountMatches(ref int matchCount)
         {
             gameManager.MyTimer.CurrentTime += gameStruct.bonusTime;
             matchCount++;
-            if (matchCount == 7) gameManager.GameOver("You win");
+            Console.WriteLine(matchCount);
+            if (matchCount == gameStruct.matchesFound) gameManager.GameOver("You win");
         }
 
-        private void Window_Closed(object sender, EventArgs e)
+        public void TakeBorderDamage(Border damageBorder, TextBlock currentTextBlock)
         {
-            mainWindow.Visibility = Visibility.Visible;
+            damageBorder.BorderBrush = Brushes.Orange;
+            damageBorder.Background = Brushes.Red;
+            currentTextBlock.Foreground = Brushes.Purple;
+            gameManager.Damager.TakeDamage();
         }
 
         private void MainMenuButton_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
+            mainWindow.Visibility = Visibility.Visible;
+        }
+        private void Window_Closed(object sender, EventArgs e)
+        {
             mainWindow.Visibility = Visibility.Visible;
         }
     }

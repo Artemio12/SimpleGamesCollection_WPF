@@ -10,29 +10,29 @@ using System.Windows.Media;
 
 namespace MatchGame1
 {
-    internal class FindMatchManager :BaseGameManager, IEndable
+    internal class MemoryCardManager :BaseGameManager, IEndable
     {
         private IClickable clickable;
         private IEnumerable<Border> clickableBorders;
-        private MemoryCardGameStruct gameStruct;
+        private MemoryCardStruct gameStruct;
+
         private Timer myTimer;
         public Timer MyTimer => myTimer;
 
-        private MemoryCardDamager damager;
-        public MemoryCardDamager Damager => damager;
+        private BaseDamager damager;
+        public BaseDamager Damager => damager;
 
-        public FindMatchManager(IClickable clickable, ref MemoryCardGameStruct gameStruct) : this(clickable)
-        {
-            this.gameStruct = gameStruct;
-            damager = new MemoryCardDamager(clickable, ref gameStruct.HPBar, gameStruct.outputTextBlock)
-            { End = this };
-            myTimer = new Timer(damager);
-            SelectClickableBorders();
-        }
-        private FindMatchManager(IClickable clickable)
+        public MemoryCardManager(IClickable clickable, ref MemoryCardStruct gameStruct) 
         {
             this.clickable = clickable;
+            this.gameStruct = gameStruct;
+
+            damager = new MemoryCardDamager(ref gameStruct.HPBar) { End = this };
+            myTimer = new Timer(damager, gameStruct.outputTextBlock);
+
+            SelectClickableBorders();
         }
+
         private void SelectClickableBorders()
         {
             clickableBorders = from text in gameStruct.bordersOnGrid
@@ -79,10 +79,8 @@ namespace MatchGame1
                 border.MouseDown += clickable.Border_MouseDown;
             }
             
-            damager.ClickableBorders = clickableBorders;
             myTimer.StartTimer(gameStruct.startTime);
         }
-
         public override void Restart()
         {
             gameStruct.outputTextBlock.Text = "Timer";
@@ -95,7 +93,6 @@ namespace MatchGame1
                 (border.Child as TextBlock).Foreground = Brushes.Black;
             }
         }
-
         public override void GameOver(string finalInscription)
         {
             myTimer.StopTimer(gameStruct.outputTextBlock, finalInscription);

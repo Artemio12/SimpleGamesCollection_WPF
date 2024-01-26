@@ -11,25 +11,14 @@ namespace MatchGame1
 {
     internal class MemoryCardDamager :BaseDamager
     {
-        private IClickable clickable;
-        private IEnumerable<Border> clickableBorders;
-        public IEnumerable<Border> ClickableBorders 
-        { get => clickableBorders; set => clickableBorders = value; }
-      
-        private TextBlock outputTextBlock;
-        public TextBlock OutputTextBlock => outputTextBlock;
-
         public IEndable End { private get; set; }
-
         public StackPanel HPBar;
         private int currentHP;
         public int maxHP;
 
-        public MemoryCardDamager(IClickable clickable, ref StackPanel HPBar, TextBlock outputTextBlock)
+        public MemoryCardDamager(ref StackPanel HPBar)
         {
             maxHP = HPBar.Children.OfType<TextBlock>().Count();
-            this.clickable = clickable;
-            this.outputTextBlock = outputTextBlock;
             this.HPBar = HPBar;
             currentHP = maxHP;
         }
@@ -41,11 +30,10 @@ namespace MatchGame1
                 if (element.Text == "❤️")
                 {
                     element.Text = "🤍";
-                    //element.Text = "💔";
                     element.Foreground = Brushes.Black;
 
                     currentHP--;
-                    
+                    Console.WriteLine(currentHP.ToString() + "fd");
                     break;
                 }
             }
@@ -55,19 +43,5 @@ namespace MatchGame1
                 currentHP = maxHP;
             } 
         }
-       
-        //public void GameOver(string finalInscription)
-        //{
-        //    Timer.StopTimer(outputTextBlock ,finalInscription);
-        //    clickable.StartButton.Content = "Restart";
-        //    clickable.StartButton.Visibility = Visibility.Visible;
-        //    currentHP = maxHP;
-        //    foreach (var border in clickableBorders)
-        //    {
-        //        border.MouseDown -= clickable.Border_MouseDown;
-        //        border.Child.Opacity = 1;
-        //    }
-        //    return;
-        //}
     }
 }

@@ -10,22 +10,17 @@ namespace MatchGame1
 {
     internal class Timer
     {
-        public static DispatcherTimer timer = new DispatcherTimer();
-        private MemoryCardDamager damager;
+        private DispatcherTimer timer = new DispatcherTimer();
+        private BaseDamager damager;
         private TextBlock outputTextBlock;
         private int startTime;
         private int currentTime;
-        public int CurrentTime { get { return currentTime; } set { currentTime = value; } }
-        public Timer(IClickable clickable, ref List<TextBlock> HPHeartList, TextBlock textBlock)
-        {
-            outputTextBlock = textBlock;
-        }
-
-        public Timer(MemoryCardDamager damager)
+        public int CurrentTime { get => currentTime; set => currentTime = value; }
+       
+        public Timer(BaseDamager damager, TextBlock outputTextBlock)
         {
             this.damager = damager;
-            outputTextBlock = damager.OutputTextBlock;
-            
+            this.outputTextBlock = outputTextBlock;
         }
 
         public void StartTimer(int startTime)

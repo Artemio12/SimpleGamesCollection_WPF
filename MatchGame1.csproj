@@ -86,6 +86,8 @@
     </ApplicationDefinition>
     <Compile Include="BaseDamager.cs" />
     <Compile Include="BaseGameManager.cs" />
+    <Compile Include="ControlDamager.cs" />
+    <Compile Include="DamageDecorator.cs" />
     <Compile Include="GameOver.xaml.cs">
       <DependentUpon>GameOver.xaml</DependentUpon>
     </Compile>
@@ -94,7 +96,7 @@
       <DependentUpon>MemoryCard.xaml</DependentUpon>
     </Compile>
     <Compile Include="MemoryCardDamager.cs" />
-    <Compile Include="FindMatchManager.cs" />
+    <Compile Include="MemoryCardManager.cs" />
     <Compile Include="IClickable.cs" />
     <Compile Include="Timer.cs" />
     <Page Include="GameOver.xaml">
@@ -156,6 +158,9 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="MemoryCard\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
