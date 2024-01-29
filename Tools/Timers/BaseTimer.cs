@@ -2,7 +2,7 @@
 using System.Windows.Controls;
 using System.Windows.Threading;
 
-namespace MatchGame1
+namespace WPFGamesCollection
 {
     public abstract class BaseTimer
     {

@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 
-namespace MatchGame1
+namespace WPFGamesCollection
 {
     /// <summary>
     /// Логика взаимодействия для GameOverWindow.xaml

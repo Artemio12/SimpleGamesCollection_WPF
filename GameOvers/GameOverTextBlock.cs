@@ -2,7 +2,7 @@
 using System.Windows.Controls;
 using System.Collections.Generic;
 
-namespace MatchGame1
+namespace WPFGamesCollection
 {
     internal class GameOverTextBlock :IEndable
     {
@@ -10,9 +10,9 @@ namespace MatchGame1
         private IEnumerable<Border> clickableBorders;
 
         private BaseDamager damager;
-        private DecreasingTimer myTimer;
+        private BaseTimer myTimer;
 
-        public GameOverTextBlock(IClickable clickable, IEnumerable<Border> clickableBorders, BaseDamager damager, DecreasingTimer myTimer)
+        public GameOverTextBlock(IClickable clickable, IEnumerable<Border> clickableBorders, BaseDamager damager, BaseTimer myTimer)
         { 
             this.clickable = clickable;
             this.clickableBorders = clickableBorders;

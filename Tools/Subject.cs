@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace MatchGame1
+namespace WPFGamesCollection
 {
     public class Subject<T>
     {
         private List<T> observersList;
         public List<T> ObserversList => observersList;
-
 
         public Subject() 
         {

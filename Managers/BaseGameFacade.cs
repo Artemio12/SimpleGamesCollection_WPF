@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace MatchGame1
+namespace WPFGamesCollection
 {
     internal abstract class BaseGameFacade
     {
@@ -9,6 +9,7 @@ namespace MatchGame1
         protected abstract void Restart();
 
         public abstract void StartGame(Button button);
+        public abstract void GamePlay();
         public abstract void GameOver(string finalInscription); 
     }
 }

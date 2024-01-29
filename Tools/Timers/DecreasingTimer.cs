@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Controls;
 
-namespace MatchGame1
+namespace WPFGamesCollection
 {
     internal class DecreasingTimer :BaseTimer
     {

@@ -1,7 +1,7 @@
 ﻿using System.Windows.Controls;
 using System.Windows.Media;
 
-namespace MatchGame1
+namespace WPFGamesCollection
 {
     internal class DamageBorder
     {

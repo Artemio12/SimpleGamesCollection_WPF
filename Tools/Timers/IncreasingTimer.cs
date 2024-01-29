@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MatchGame1
+namespace WPFGamesCollection
 {
     internal class IncreasingTimer :BaseTimer
     {

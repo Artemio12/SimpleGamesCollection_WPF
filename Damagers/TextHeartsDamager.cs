@@ -2,7 +2,7 @@
 using System.Windows.Media;
 using System.Linq;
 
-namespace MatchGame1
+namespace WPFGamesCollection
 {
     internal class TextHeartsDamager :BaseDamager
     {

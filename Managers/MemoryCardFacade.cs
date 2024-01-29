@@ -6,37 +6,42 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 
-namespace MatchGame1
+namespace WPFGamesCollection
 {
     internal class MemoryCardFacade :BaseGameFacade
     {
         private IClickable clickable;
-        
         private IEnumerable<Border> clickableBorders;
+
+        private Stack<Border> selectBorderStack = new Stack<Border>(2);
 
         private MemoryCardStruct gameStruct;
 
-        private DecreasingTimer myTimer;
-        public DecreasingTimer MyTimer => myTimer;
-
+        private BaseTimer myTimer;
         private BaseDamager damager;
-        public BaseDamager Damager => damager;
+        private DamageBorder damageBorder;
+
+        public Border CurrentBorder {  private get; set; }
+
+
+        private int matchesFound;
 
         public MemoryCardFacade(IClickable clickable, ref MemoryCardStruct gameStruct) 
         {
             this.clickable = clickable;
             this.gameStruct = gameStruct;
 
-            InitializeObject();
+            CreateComponent();
         }
 
-        private void InitializeObject()
+        private void CreateComponent()
         {
             clickableBorders = from text in gameStruct.bordersOnGrid
                                where text.Tag.ToString() == nameof(EnumTags.Clickable)
                                select text;
 
             damager = new TextHeartsDamager(ref gameStruct.HPBar, gameStruct.emojiHeart, gameStruct.damagedHeart);
+            damageBorder = new DamageBorder(damager);
             myTimer = new DecreasingTimer(damager, gameStruct.outputTextBlock);
             endable = new GameOverTextBlock(clickable, clickableBorders, damager, myTimer);
             damager.End = endable;
@@ -49,7 +54,15 @@ namespace MatchGame1
             if (button.Content.ToString() == "Restart") Restart();
             else SetUp();
         }
-  
+        public override void GamePlay()
+        {
+            FindMatch(CurrentBorder);
+        }
+        public override void GameOver(string finalInscription)
+        {
+            endable.GameOver(finalInscription);
+        }
+
         protected override async void SetUp()
         {
             Random random = new Random();
@@ -91,10 +104,71 @@ namespace MatchGame1
             
             myTimer.StartTimer(gameStruct.startTime);
         }
+
+        private void FindMatch(Border currentBorder)
+        {
+            TextBlock currentTextBlock = currentBorder.Child as TextBlock;
+            if (currentBorder.Child.Opacity == 0)
+                AddCard(currentBorder, currentTextBlock);
+
+            if (selectBorderStack.Count == gameStruct.countSelectedCards)
+                CheckCardsMatch(currentTextBlock);
+        }
+        private void AddCard(Border currentBorder, TextBlock currentTextBlock)
+        {
+            if (selectBorderStack.Count < gameStruct.countSelectedCards)
+            {
+                currentBorder.Child.Opacity = 1;
+
+                if (currentTextBlock.Text != gameStruct.emojiDamager) selectBorderStack.Push(currentBorder);
+                else
+                {
+                    damageBorder.TakeDamage(currentBorder);
+                    if (selectBorderStack.Count != 0) selectBorderStack.Pop().Child.Opacity = 0;
+                }
+                return;
+            }
+        }
+        private async void CheckCardsMatch(TextBlock currentTextBlock)
+        {
+            if (selectBorderStack.All(p => (p.Child as TextBlock).Text == currentTextBlock.Text))
+            {
+                CountMatches(ref matchesFound);
+                foreach (var element in selectBorderStack)
+                {
+                    element.BorderBrush = Brushes.Blue;
+                    element.Background = Brushes.Green;
+                }
+
+                selectBorderStack.Clear();
+            }
+            else
+            {
+                if (clickable.StartButton.Visibility == Visibility.Visible)
+                {
+                    return;
+                }
+
+                await Task.Delay(TimeSpan.FromSeconds(0.3f));
+
+                foreach (var border in selectBorderStack)
+                {
+                    border.Child.Opacity = 0;
+                }
+                selectBorderStack.Clear();
+            }
+        }
+        private void CountMatches(ref int matchCount)
+        {
+            myTimer.CurrentTime += gameStruct.bonusTime;
+            matchCount++;
+            if (matchCount == gameStruct.matchesFound) GameOver("You win!");
+        }
+
         protected override void Restart()
         {
             gameStruct.outputTextBlock.Text = "Timer";
-
+            matchesFound = 0;
             foreach (var border in clickableBorders)
             {
                 border.Child.Opacity = 0;
@@ -102,12 +176,8 @@ namespace MatchGame1
                 border.BorderBrush = Brushes.Black;
                 (border.Child as TextBlock).Foreground = Brushes.Black;
             }
-            SetUp();
-        }
 
-        public override void GameOver(string finalInscription)
-        {
-            endable.GameOver(finalInscription);
+            SetUp();
         }
     }
 }

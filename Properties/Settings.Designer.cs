@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace MatchGame1.Properties
+namespace WPFGamesCollection.Properties
 {
 
 

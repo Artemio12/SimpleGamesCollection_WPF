@@ -2,7 +2,7 @@
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace MatchGame1
+namespace WPFGamesCollection
 {
     public interface IClickable
     {

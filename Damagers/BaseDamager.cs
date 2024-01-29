@@ -1,5 +1,5 @@
 ﻿
-namespace MatchGame1
+namespace WPFGamesCollection
 {
     public abstract class BaseDamager 
     {

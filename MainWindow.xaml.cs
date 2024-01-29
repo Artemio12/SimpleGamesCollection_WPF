@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 
 
-namespace MatchGame1
+namespace WPFGamesCollection
 {
     /// <summary>
     /// Логика взаимодействия для MainWindow.xaml
