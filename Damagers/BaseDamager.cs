@@ -1,12 +1,4 @@
-﻿using System;
-using System.CodeDom;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Controls;
-using System.Windows.Documents;
-
+﻿
 namespace MatchGame1
 {
     public abstract class BaseDamager 
