@@ -9,7 +9,7 @@ namespace WPFGamesCollection
         protected abstract void Restart();
 
         public abstract void StartGame(Button button);
-        public abstract void GamePlay();
+        public abstract void PlayingGame();
         public abstract void GameOver(string finalInscription); 
     }
 }

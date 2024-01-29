@@ -10,12 +10,11 @@ namespace WPFGamesCollection
 {
     internal class MemoryCardFacade :BaseGameFacade
     {
+        private MemoryCardStruct gameStruct;
         private IClickable clickable;
         private IEnumerable<Border> clickableBorders;
 
         private Stack<Border> selectBorderStack = new Stack<Border>(2);
-
-        private MemoryCardStruct gameStruct;
 
         private BaseTimer myTimer;
         private BaseDamager damager;
@@ -54,7 +53,7 @@ namespace WPFGamesCollection
             if (button.Content.ToString() == "Restart") Restart();
             else SetUp();
         }
-        public override void GamePlay()
+        public override void PlayingGame()
         {
             FindMatch(CurrentBorder);
         }

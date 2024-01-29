@@ -85,7 +85,7 @@ namespace WPFGamesCollection
         {
             Border currentBorder = sender as Border;
             gameManager.CurrentBorder = currentBorder;
-            gameManager.GamePlay();
+            gameManager.PlayingGame();
         }
         public void MainMenuButton_Click(object sender, RoutedEventArgs e)
         {
