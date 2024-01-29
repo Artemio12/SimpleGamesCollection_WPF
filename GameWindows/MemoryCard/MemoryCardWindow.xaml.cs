@@ -46,7 +46,7 @@ namespace MatchGame1
     public partial class MemoryCard :Window, IClickable
     {
         private MemoryCardStruct gameStruct;
-        private MemoryCardManager gameManager;
+        private MemoryCardFacade gameManager;
         private Stack<Border> selectBorderStack = new Stack<Border>(2);
 
         private DamageBorder damageBorder;
@@ -58,6 +58,9 @@ namespace MatchGame1
         private Button startButton;
         public Button StartButton => startButton;
 
+        private Button mainMenuButton;
+        public Button MainMenuButton => mainMenuButton;
+
         private int matchesFound;
 
         public MemoryCard()
@@ -65,7 +68,7 @@ namespace MatchGame1
             InitializeComponent();
 
             InitializeStruct();
-            gameManager = new MemoryCardManager(this, ref gameStruct);
+            gameManager = new MemoryCardFacade(this, ref gameStruct);
             damageBorder = new DamageBorder(gameManager.Damager);
         }
 
@@ -97,17 +100,10 @@ namespace MatchGame1
         public void StartButton_Click(object sender, RoutedEventArgs e)
         {
             startButton = sender as Button;
-            startButton.Visibility = Visibility.Hidden;
-            if (startButton.Content.ToString() == "Restart")
-            {
-                matchesFound = 0;
-                gameManager.Restart();
-
-            }
-            gameManager.SetUp();
+            if (matchesFound != 0) matchesFound = 0;
+            gameManager.StartGame(startButton);
         }
-
-        public void Border_MouseDown(object sender, MouseButtonEventArgs e)
+        public void ClickableBorder_MouseDown(object sender, MouseButtonEventArgs e)
         {
             Border currentBorder = sender as Border;
             TextBlock currentTextBlock = currentBorder.Child as TextBlock;
@@ -118,6 +114,7 @@ namespace MatchGame1
             if (selectBorderStack.Count == gameStruct.countSelectedCards)
                 CheckCardsMatch(currentTextBlock);
         }
+
         private void AddCard(Border currentBorder, TextBlock currentTextBlock)
         {
             if (selectBorderStack.Count < gameStruct.countSelectedCards)
@@ -166,9 +163,10 @@ namespace MatchGame1
         {
             gameManager.MyTimer.CurrentTime += gameStruct.bonusTime;
             matchCount++;
-            if (matchCount == gameStruct.matchesFound) gameManager.GameOver("You win");
+            if (matchCount == gameStruct.matchesFound) gameManager.GameOver("You win!");
         }
-        private void MainMenuButton_Click(object sender, RoutedEventArgs e)
+
+        public void MainMenuButton_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
             mainWindow.Visibility = Visibility.Visible;

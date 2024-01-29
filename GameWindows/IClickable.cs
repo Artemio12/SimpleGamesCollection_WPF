@@ -13,6 +13,7 @@ namespace MatchGame1
     {
         Button StartButton { get; }
         void StartButton_Click(object sender, RoutedEventArgs e);
-        void Border_MouseDown(object sender, MouseButtonEventArgs e);
+        void MainMenuButton_Click(object sender, RoutedEventArgs e);
+        void ClickableBorder_MouseDown(object sender, MouseButtonEventArgs e);
     }
 }

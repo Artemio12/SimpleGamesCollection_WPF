@@ -9,15 +9,14 @@ using System.Windows.Media;
 
 namespace MatchGame1
 {
-    internal class MemoryCardDamager :BaseDamager
+    internal class TextHeartsDamager :BaseDamager
     {
-        public IEndable End { private get; set; }
         public StackPanel HPBar;
        
         private string fillHeart;
         private string damagedHeart;
 
-        public MemoryCardDamager(ref StackPanel HPBar, string fillHeart, string damagedHeart)
+        public TextHeartsDamager(ref StackPanel HPBar, string fillHeart, string damagedHeart)
         {
             this.HPBar = HPBar;
             this.fillHeart = fillHeart;
@@ -40,10 +39,7 @@ namespace MatchGame1
                     break;
                 }
             }
-            if (currentHP == 0) 
-            {
-                End.GameOver("Good Game");
-            } 
+            if (currentHP == 0) End.GameOver("Game over!");
         }
     }
 }

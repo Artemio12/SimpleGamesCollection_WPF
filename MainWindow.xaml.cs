@@ -39,9 +39,10 @@ namespace MatchGame1
                     this.Visibility = Visibility.Collapsed;
                     break;
                 default:
-                    MessageBox.Show("Please, select game");
+                    MessageBox.Show("Please, select a game");
                     break;
             }
+            gameComboBox.SelectedIndex = -1;
         }
     }
 }

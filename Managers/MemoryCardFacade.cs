@@ -10,38 +10,49 @@ using System.Windows.Media;
 
 namespace MatchGame1
 {
-    internal class MemoryCardManager :BaseGameManager, IEndable
+    internal class MemoryCardFacade :BaseGameFacade
     {
         private IClickable clickable;
+        
         private IEnumerable<Border> clickableBorders;
+
         private MemoryCardStruct gameStruct;
 
-        private Timer myTimer;
-        public Timer MyTimer => myTimer;
+        private DecreasingTimer myTimer;
+        public DecreasingTimer MyTimer => myTimer;
 
         private BaseDamager damager;
         public BaseDamager Damager => damager;
 
-        public MemoryCardManager(IClickable clickable, ref MemoryCardStruct gameStruct) 
+        public MemoryCardFacade(IClickable clickable, ref MemoryCardStruct gameStruct) 
         {
             this.clickable = clickable;
             this.gameStruct = gameStruct;
 
-            damager = new MemoryCardDamager(ref gameStruct.HPBar, gameStruct.emojiHeart, gameStruct.damagedHeart)
-            { End = this };
-            myTimer = new Timer(damager, gameStruct.outputTextBlock);
-
-            SelectClickableBorders();
+            InitializeObject();
         }
 
-        private void SelectClickableBorders()
+        private void InitializeObject()
         {
             clickableBorders = from text in gameStruct.bordersOnGrid
                                where text.Tag.ToString() == nameof(EnumTags.Clickable)
                                select text;
+
+            damager = new TextHeartsDamager(ref gameStruct.HPBar, gameStruct.emojiHeart, gameStruct.damagedHeart);
+            myTimer = new DecreasingTimer(damager, gameStruct.outputTextBlock);
+            endable = new GameOverTextBlock(clickable, clickableBorders, damager, myTimer);
+            damager.End = endable;
+
         }
 
-        public override async void SetUp()
+        public override void StartGame(Button button)
+        {
+            button.Visibility = Visibility.Hidden;
+            if (button.Content.ToString() == "Restart") Restart();
+            else SetUp();
+        }
+  
+        protected override async void SetUp()
         {
             Random random = new Random();
             List<string> list = new List<string>();
@@ -77,12 +88,12 @@ namespace MatchGame1
             foreach (Border border in clickableBorders)
             {
                 border.Child.Opacity = 0;
-                border.MouseDown += clickable.Border_MouseDown;
+                border.MouseDown += clickable.ClickableBorder_MouseDown;
             }
             
             myTimer.StartTimer(gameStruct.startTime);
         }
-        public override void Restart()
+        protected override void Restart()
         {
             gameStruct.outputTextBlock.Text = "Timer";
 
@@ -93,19 +104,12 @@ namespace MatchGame1
                 border.BorderBrush = Brushes.Black;
                 (border.Child as TextBlock).Foreground = Brushes.Black;
             }
+            SetUp();
         }
+
         public override void GameOver(string finalInscription)
         {
-            myTimer.StopTimer(gameStruct.outputTextBlock, finalInscription);
-            clickable.StartButton.Content = "Restart";
-            damager.CurrentHP = 3;
-            clickable.StartButton.Visibility = Visibility.Visible;
-            foreach (var border in clickableBorders)
-            {
-                border.MouseDown -= clickable.Border_MouseDown;
-                border.Child.Opacity = 1;
-            }
-            return;
+            endable.GameOver(finalInscription);
         }
     }
 }
