@@ -8,7 +8,7 @@
         WindowStartupLocation="CenterScreen"
         ResizeMode="CanMinimize"
         mc:Ignorable="d"
-        Title="MemoryCard" Height="500" Width="500" >
+        Title="MemoryCard" Height="500" Width="500" Loaded="Window_Loaded" >
     <Grid x:Name="mainGrid" HorizontalAlignment="Center" VerticalAlignment="Center" Width="500" Height="500">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="0.6*"/>

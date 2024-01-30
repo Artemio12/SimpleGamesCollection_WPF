@@ -143,11 +143,6 @@ namespace WPFGamesCollection
             }
             else
             {
-                if (clickable.StartButton.Visibility == Visibility.Visible)
-                {
-                    return;
-                }
-
                 await Task.Delay(TimeSpan.FromSeconds(0.3f));
 
                 foreach (var border in selectBorderStack)

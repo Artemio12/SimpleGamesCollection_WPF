@@ -1,6 +1,8 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using System;
 
 namespace WPFGamesCollection
 {
@@ -19,18 +21,26 @@ namespace WPFGamesCollection
             this.damager = damager;
             this.myTimer = myTimer;
         }
-        public void GameOver(string finalInscription)
+        public async void GameOver(string finalInscription)
         {
             myTimer.StopTimer( finalInscription);
-    
-            clickable.StartButton.Content = "Restart";
-            clickable.StartButton.Visibility = Visibility.Visible;
-            damager.CurrentHP = damager.MaxHP;
+
             foreach (var border in clickableBorders)
             {
                 border.MouseDown -= clickable.ClickableBorder_MouseDown;
+            }
+    
+            await Task.Delay(TimeSpan.FromSeconds(0.3f));
+
+            foreach (var border in clickableBorders)
+            {
                 border.Child.Opacity = 1;
             }
+
+            clickable.StartButton.Content = "Restart";
+            clickable.StartButton.Visibility = Visibility.Visible;
+            damager.CurrentHP = damager.MaxHP;
+
             return;
         }
     }

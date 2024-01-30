@@ -46,11 +46,12 @@ namespace WPFGamesCollection
         public MemoryCard()
         {
             InitializeComponent();
-
+        }
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
             InitializeStruct();
             gameManager = new MemoryCardFacade(this, ref gameStruct);
         }
-
         private void InitializeStruct()
         {
             gameStruct.bordersOnGrid = mainGrid.Children.OfType<Border>();
