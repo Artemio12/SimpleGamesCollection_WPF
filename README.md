@@ -2,7 +2,7 @@
 Link to .exe file on Google disk
 https://drive.google.com/file/d/1D-smhEtCp8U91SFiKBQKnqExbkHdYTnZ/view?usp=drive_link
 
-Thr collection contains this games:
+The collection contains this games:
 1. Memory card game (with HP and Timer);
 2. Coming soon...;
 3. Coming soon...;
