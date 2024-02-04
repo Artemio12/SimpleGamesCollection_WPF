@@ -1,5 +1,5 @@
 # Simple Games Collection with WPF
-Lick to .exe file on Google disk
+Link to .exe file on Google disk
 https://drive.google.com/file/d/1D-smhEtCp8U91SFiKBQKnqExbkHdYTnZ/view?usp=drive_link
 
 Thr collection contains this games:
