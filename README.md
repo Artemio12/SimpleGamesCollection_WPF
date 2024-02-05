@@ -8,7 +8,7 @@ Screen Main Menu (not finished):
 
 Screen Memory cards (before Start)
 
-![image](https://github.com/Artemio12/SimpleGamesCollectionWPF/assets/59345054/f48df5fc-a782-41c0-8df3-d56c84a75544)
+![image](https://github.com/Artemio12/SimpleGamesCollectionWPF/assets/59345054/4d98e8c8-bd0b-4cab-94b6-88201462f01c)
 
 Screen Memory cards (after Start)
 
