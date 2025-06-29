@@ -3,7 +3,7 @@ using System.Windows.Controls;
 
 namespace WPFGamesCollection
 {
-    internal class DecreasingTimer :BaseTimer
+    public class DecreasingTimer :BaseTimer
     {
         public DecreasingTimer(BaseDamager damager, TextBlock outputTextBlock)
         {

@@ -30,10 +30,10 @@ namespace WPFGamesCollection
             this.clickable = clickable;
             this.gameStruct = gameStruct;
 
-            CreateComponent();
+            CreateComponents();
         }
 
-        private void CreateComponent()
+        private void CreateComponents()
         {
             clickableBorders = from text in gameStruct.bordersOnGrid
                                where text.Tag.ToString() == nameof(EnumTags.Clickable)
@@ -163,6 +163,7 @@ namespace WPFGamesCollection
         {
             gameStruct.outputTextBlock.Text = "Timer";
             matchesFound = 0;
+            selectBorderStack.Clear();
             foreach (var border in clickableBorders)
             {
                 border.Child.Opacity = 0;

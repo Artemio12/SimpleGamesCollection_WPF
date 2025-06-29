@@ -3,7 +3,7 @@ using System.Windows.Media;
 
 namespace WPFGamesCollection
 {
-    internal class DamageBorder
+    public class DamageBorder
     {
         private BaseDamager damager;
         public DamageBorder(BaseDamager damager)

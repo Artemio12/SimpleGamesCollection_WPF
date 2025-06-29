@@ -61,7 +61,10 @@
     <GenerateManifests>true</GenerateManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <SignManifests>true</SignManifests>
+    <SignManifests>false</SignManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>WPFGamesCollection.App</StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -85,7 +88,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Damagers\BaseDamager.cs" />
-    <Compile Include="Managers\BaseGameFacade.cs" />
+    <Compile Include="Facades\BaseGameFacade.cs" />
     <Compile Include="Tools\Timers\BaseTimer.cs" />
     <Compile Include="Tools\Timers\IncreasingTimer.cs" />
     <Compile Include="Tools\Subject.cs" />
@@ -99,7 +102,7 @@
       <DependentUpon>MemoryCardWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Damagers\TextHeartsDamager.cs" />
-    <Compile Include="Managers\MemoryCardFacade.cs" />
+    <Compile Include="Facades\MemoryCardFacade.cs" />
     <Compile Include="GameWindows\IClickable.cs" />
     <Compile Include="Tools\Timers\DecreasingTimer.cs" />
     <Page Include="GameOvers\GameOverWindow.xaml">
@@ -161,6 +164,20 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="GameWindows\MemoryCard\Dice_Icon.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GameWindows\MemoryCard\png-transparent-game-art-product-design-dice-small-card-game-text-rectangle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GameWindows\MemoryCard\Cards_icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Dice_Icon.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="MainMenu_icon.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

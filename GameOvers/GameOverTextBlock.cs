@@ -6,7 +6,7 @@ using System;
 
 namespace WPFGamesCollection
 {
-    internal class GameOverTextBlock :IEndable
+    public class GameOverTextBlock :IEndable
     {
         private IClickable clickable;
         private IEnumerable<Border> clickableBorders;

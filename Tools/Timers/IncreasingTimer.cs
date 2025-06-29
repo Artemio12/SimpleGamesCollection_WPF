@@ -2,7 +2,7 @@
 
 namespace WPFGamesCollection
 {
-    internal class IncreasingTimer :BaseTimer
+    public class IncreasingTimer :BaseTimer
     {
         protected override void Timer_Tick(object sender, EventArgs e)
         {

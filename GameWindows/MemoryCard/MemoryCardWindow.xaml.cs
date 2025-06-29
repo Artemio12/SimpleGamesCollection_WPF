@@ -73,7 +73,7 @@ namespace WPFGamesCollection
             gameStruct.damagedHeart = "🤍";
             gameStruct.startTime = 50;
             gameStruct.countSelectedCards = 2;
-            gameStruct.bonusTime = 10;
+            gameStruct.bonusTime = 20;
             gameStruct.matchesFound = 7;
         }
 
