@@ -1,6 +1,6 @@
 # Simple Games Collection with WPF
 Link to .exe file on Google disk
-https://drive.google.com/file/d/1W-grTD33Yop4fHmwVnon5prankY6hWeq/view?usp=drive_link
+https://drive.google.com/file/d/1a7LkzPxEKHWuKmGa24nMdAH1v7jSDG2V/view?usp=drive_link
 
 Screen Main Menu (not finished):
 
